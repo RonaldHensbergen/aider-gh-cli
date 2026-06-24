@@ -100,4 +100,4 @@ def strip_context(body):
     end = body.find("-->")
     if end == -1:
         return body
-    return body[end + len("-->"):].lstrip("\n")
+    return body[end + 3:].lstrip("\n")

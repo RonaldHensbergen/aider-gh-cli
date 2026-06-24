@@ -122,8 +122,8 @@ class TestCreatePrCommand(unittest.TestCase):
                     cli, ["create-pr", "--no-edit", "--base", "main", "--draft"]
                 )
                 self.assertEqual(result.exit_code, 0, result.output)
-                _, kwargs = mock_create.call_args
-                self.assertTrue(kwargs.get("draft") or mock_create.call_args[0][3])
+                _args, kwargs = mock_create.call_args
+                self.assertTrue(kwargs.get("draft", False))
         finally:
             for p in patches:
                 p.stop()
