@@ -15,6 +15,7 @@ dependencies = [
 
 [project.scripts]
 aider-gh-cli = "aider_gh_cli.cli:main"
+agc = "aider_gh_cli.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]

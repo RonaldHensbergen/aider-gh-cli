@@ -32,6 +32,13 @@ def cli():
     help="Base branch to compare against (default: auto-detected main/master/develop).",
 )
 @click.option(
+    "--repo",
+    "repo_path",
+    default=".",
+    type=click.Path(exists=True, file_okay=False, dir_okay=True, readable=True),
+    help="Path to the target git repository (default: current directory).",
+)
+@click.option(
     "--title",
     default=None,
     help="PR title. Defaults to the subject of the most recent commit.",
@@ -62,7 +69,7 @@ def cli():
     help="Print the PR title and body without creating the PR.",
 )
 @click.pass_context
-def create_pr_cmd(ctx, base, title, template_path, no_edit, draft, dry_run):
+def create_pr_cmd(ctx, base, repo_path, title, template_path, no_edit, draft, dry_run):
     """Collect branch changes and create a GitHub pull request.
 
     Steps:\n
@@ -71,7 +78,22 @@ def create_pr_cmd(ctx, base, title, template_path, no_edit, draft, dry_run):
       3. Open an editor so you can fill in the description (unless --no-edit).\n
       4. Create the PR with ``gh pr create``.\n
     """
-    cwd = os.getcwd()
+    cwd = os.path.abspath(repo_path)
+
+    try:
+        subprocess.run(
+            ["git", "rev-parse", "--is-inside-work-tree"],
+            cwd=cwd,
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        click.echo(
+            f"Error: '{cwd}' is not a git repository.",
+            err=True,
+        )
+        sys.exit(1)
 
     # Resolve base branch
     if base is None:

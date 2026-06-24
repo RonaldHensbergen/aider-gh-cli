@@ -21,15 +21,31 @@ CLI tool that collects all changes from a local branch, creates a pull request d
 pip install .
 ```
 
+To use `agc` from any directory, install it into a global/user environment:
+
+```bash
+pipx install .
+```
+
+or
+
+```bash
+python -m pip install --user .
+```
+
 ## Usage
 
 ```
 aider-gh-cli create-pr [OPTIONS]
+agc create-pr [OPTIONS]
 ```
+
+`agc` is a short alias for `aider-gh-cli`.
 
 | Option | Description |
 |---|---|
 | `--base BRANCH` | Base branch to compare against (default: auto-detected `main`/`master`/`develop`). |
+| `--repo PATH` | Target git repository path (default: current directory). |
 | `--title TEXT` | PR title. Defaults to the subject of the most recent commit. |
 | `--template FILE` | Path to a custom Markdown template file. |
 | `--no-edit` | Skip opening an editor; submit the template as-is. |
@@ -41,15 +57,20 @@ aider-gh-cli create-pr [OPTIONS]
 ```bash
 # Auto-detect base branch, open editor to fill in description, then create PR
 aider-gh-cli create-pr
+agc create-pr
 
 # Preview what will be submitted without creating the PR
 aider-gh-cli create-pr --dry-run
+agc create-pr --dry-run
 
 # Use a custom template and skip the editor
 aider-gh-cli create-pr --template .github/pull_request_template.md --no-edit
 
 # Create a draft PR against a specific base branch
 aider-gh-cli create-pr --base develop --draft
+
+# Run from anywhere by explicitly selecting the repository
+agc create-pr --repo /path/to/your/repo --dry-run
 ```
 
 ## Default Template

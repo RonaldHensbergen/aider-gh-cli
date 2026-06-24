@@ -128,6 +128,38 @@ class TestCreatePrCommand(unittest.TestCase):
             for p in patches:
                 p.stop()
 
+    @patch("aider_gh_cli.cli.subprocess.run")
+    @patch("aider_gh_cli.cli.gh_available", return_value=True)
+    @patch("aider_gh_cli.cli.create_pr", return_value="https://github.com/owner/repo/pull/3")
+    def test_repo_option_sets_target_repository_cwd(
+        self, mock_create, _mock_gh, mock_subprocess_run
+    ):
+        patches = self._patch_git()
+        for p in patches:
+            p.start()
+        try:
+            mock_subprocess_run.return_value = MagicMock()
+            result = self.runner.invoke(
+                cli,
+                [
+                    "create-pr",
+                    "--no-edit",
+                    "--base",
+                    "main",
+                    "--repo",
+                    "/tmp",
+                ],
+            )
+            self.assertEqual(result.exit_code, 0, result.output)
+            mock_subprocess_run.assert_called_once()
+            _args, kwargs = mock_subprocess_run.call_args
+            self.assertEqual(kwargs.get("cwd"), "/tmp")
+            _args, create_kwargs = mock_create.call_args
+            self.assertEqual(create_kwargs.get("cwd"), "/tmp")
+        finally:
+            for p in patches:
+                p.stop()
+
 
 if __name__ == "__main__":
     unittest.main()
