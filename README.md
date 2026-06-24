@@ -21,7 +21,7 @@ CLI tool that collects all changes from a local branch, creates a pull request d
 pip install .
 ```
 
-To use `agc` from any directory, install it into a global/user environment:
+To use `aider-pr` from any directory, install it into a global/user environment:
 
 ```bash
 pipx install .
@@ -40,7 +40,7 @@ aider-gh-cli create-pr [OPTIONS]
 agc create-pr [OPTIONS]
 ```
 
-`agc` is a short alias for `aider-gh-cli`.
+`aider-pr` is a short alias for `aider-gh-cli`.
 
 | Option | Description |
 |---|---|
@@ -57,11 +57,11 @@ agc create-pr [OPTIONS]
 ```bash
 # Auto-detect base branch, open editor to fill in description, then create PR
 aider-gh-cli create-pr
-agc create-pr
+aider-pr create-pr
 
 # Preview what will be submitted without creating the PR
 aider-gh-cli create-pr --dry-run
-agc create-pr --dry-run
+aider-pr create-pr --dry-run
 
 # Use a custom template and skip the editor
 aider-gh-cli create-pr --template .github/pull_request_template.md --no-edit
@@ -70,7 +70,7 @@ aider-gh-cli create-pr --template .github/pull_request_template.md --no-edit
 aider-gh-cli create-pr --base develop --draft
 
 # Run from anywhere by explicitly selecting the repository
-agc create-pr --repo /path/to/your/repo --dry-run
+aider-pr create-pr --repo /path/to/your/repo --dry-run
 ```
 
 ## Default Template
