@@ -43,6 +43,11 @@ class TestDefaultTemplate(unittest.TestCase):
             DEFAULT_TEMPLATE,
         )
 
+    def test_default_template_has_aider_prompts(self):
+        self.assertIn("/ask Write a concise PR summary", DEFAULT_TEMPLATE)
+        self.assertIn("/ask Describe user-visible impact", DEFAULT_TEMPLATE)
+        self.assertIn("run the code block below", DEFAULT_TEMPLATE)
+
 
 class TestLoadTemplate(unittest.TestCase):
     def test_load_template_returns_default_when_no_path(self):

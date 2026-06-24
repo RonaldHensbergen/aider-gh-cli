@@ -7,7 +7,13 @@ DEFAULT_TEMPLATE = """\
 
 ## Summary
 
-Describe what changed and why.
+In aider, run:
+
+```text
+/ask Write a concise PR summary using the branch context above (what changed and why).
+```
+
+Then paste the result here.
 
 ## Type Of Change
 
@@ -19,11 +25,17 @@ Describe what changed and why.
 
 ## User Impact
 
-What should users notice after this change?
+In aider, run:
+
+```text
+/ask Describe user-visible impact, behavior changes, and any migration notes.
+```
+
+Then paste the result here.
 
 ## Validation
 
-List commands run and outcomes.
+In aider, run the code block below, then summarize the outcome (pass/fail and key output).
 
 ```bash
 python -m unittest discover -s tests -p "*.py"
